@@ -6,7 +6,7 @@ Run.new
 
 
 
-
+# [9,5]
 # 5.times do
 # 	system "clear"
 # 	puts "It's a hit!!"
