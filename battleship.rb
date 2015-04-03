@@ -1,9 +1,19 @@
-require_relative "lib/controller.rb"
+# require_relative "lib/controller.rb"
 
-Run.new
+# Run.new
+require 'pry'
 
+class Account
+	def initialize current_balance = 0
+		@current_balance = current_balance
+	end
 
+	def display_balance
+		return @current_balance
+	end
+end
 
+binding.pry
 
 
 # [9,5]

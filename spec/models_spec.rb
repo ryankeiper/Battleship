@@ -3,7 +3,7 @@ require_relative '../lib/controller.rb'
 
 describe Ship do
 	before :each do
-		@ship = Ship.new.setup
+		@ship = Ship.new
 	end
 
 	it 'has a length between 1 and 10' do
