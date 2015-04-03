@@ -7,32 +7,8 @@ ActiveRecord::Base.establish_connection(
 	adapter: 'postgresql'
 )
 
-class Game < ActiveRecord::Base
-	has_many :players
-	has_many :turns
-	has_many :ships, through: :players
-
-end
-
-class Player < ActiveRecord::Base
-	has_one :game
-	has_many :ships
-	has_many :turns
-
-	validates_presence_of :name
-end
-
-class Turn <ActiveRecord::Base
-	belongs_to :player
-
-	validates_presence_of :turn_num, :shot
-end
-
-class Ship #< ActiveRecord::Base
-	#belongs_to :player
-
-	#validates_presence_of :length, :ship_coord, :damage, :sunk
-	attr_reader :ship_coord
+class Ship
+	attr_reader :ship_coord, :sunk
 	def initialize
 		@length = 5
 		@ship_coord = []
@@ -110,8 +86,30 @@ def hit_animation
 	end		
 end
 
+def win_animation
+	5.times do
+	system "clear"
+	puts "We have defeated the enemy Admiral!!"
+	sleep 0.2
+	system "clear"
+	puts " "
+	sleep 0.2
+	end		
+end
+
+def loss_animation
+	5.times do
+	system "clear"
+	puts "We have been defeated Admiral!!"
+	sleep 0.2
+	system "clear"
+	puts " "
+	sleep 0.2
+	end		
+end
+
 def new_ship
-	ship = Ship.new
+	ship = Ship.create(:length => 5, :damage => 0, :sunk => false)
 	ship.length = 5
 	ship.ship_coord = []
 	ship.damage = 0
@@ -196,15 +194,15 @@ end
 
 class CreateGame < ActiveRecord::Migration
 	def initialize
-		create_table :games do |column|
-		end
-
-		create_table :players do |column|
-			column.string :name
+		create_table :displays do |column|
+			column.string :display
 		end
 
 		create_table :turns do |column|
-			column.integer :turn_num
+			column.integer :turn
+		end
+
+		create_table :shots do |column|
 			column.string :shot
 		end
 
@@ -274,6 +272,7 @@ def hero_grid display
 		j += 1
 	end
 end
+
 
 hero_display = display
 enemy_display = display

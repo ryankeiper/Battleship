@@ -172,16 +172,19 @@ loop do
 					puts "Torpedo away!!"
 					sleep 2
 					hero_shot [x,y], enemy_display, hero_shots
+					check_ship1 = enemy_ships[0].hit_check [x,y]
+					check_ship2 = enemy_ships[1].hit_check [x,y]
+					if check_ship1 == true || check_ship2 == true
+						hit_animation
+						if enemy_ships[0].sunk == true && enemy_ships[1].sunk == true
+							win_animation
+							exit
+						end
+					end
 					break
 				else
 					puts "We've already fired there, Admiral!"
 					sleep 2
-				end
-				check_ship1 = enemy_ships[0].hit_check [x,y]
-				check_ship2 = enemy_ships[1].hit_check [x,y]
-				if check_ship1 == true || check_ship2 == true
-					hit_animation
-					
 				end
 			end
 			system "clear"
@@ -196,6 +199,10 @@ loop do
 			check_ship2 = hero_ships[1].hit_check enemy_shots.last
 				if check_ship1 == true || check_ship2 == true
 					hit_animation
+					if hero_ships[0].sunk == true && hero_ships[1].sunk == true
+						loss_animation
+						exit
+					end
 				end
 			turn += 1
 		end
